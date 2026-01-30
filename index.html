@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rayloguss’s Unblocked Games</title>
+
+<style>
+:root {
+  --bg: #f3f4f6;
+  --card: #ffffff;
+  --text: #111827;
+  --accent: #4f46e5;
+}
+
+body.dark {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --text: #f8fafc;
+  --accent: #818cf8;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  transition: 0.3s;
+}
+
+/* HEADER */
+header {
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  padding: 18px;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  z-index: 10;
+  transition: transform 0.3s ease;
+}
+
+/* TOP BUTTONS */
+.top-buttons {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 8px;
+  z-index: 20;
+}
+
+.top-buttons button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: var(--accent);
+  color: white;
+  font-size: 0.85rem;
+}
+
+/* CONTROLS */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 15px;
+}
+
+.controls input {
+  padding: 10px;
+  width: 260px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+.controls button {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: var(--accent);
+  color: white;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+/* CARD */
+.card {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 12px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.08);
+}
+
+.card img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.card h3 {
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+.card .buttons {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.card a, .card button {
+  padding: 7px 10px;
+  background: var(--accent);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1000px) {
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+
+<body>
+
+<header id="header">Rayloguss’s Unblocked Games</header>
+
+<div class="top-buttons">
+  <button onclick="panic()">Panic</button>
+  <button onclick="openBlank()">about:blank</button>
+</div>
+
+<div class="controls">
+  <input id="search" placeholder="Search games...">
+  <button onclick="toggleTheme()">Light / Dark</button>
+</div>
+
+<div class="grid" id="gameGrid"></div>
+
+<script>
+/* 🔥 50 GAME BOXES */
+const games = Array.from({length:50},(_,i)=>({
+  name:`Game ${i+1}`,
+  image:`https://via.placeholder.com/300x150?text=Game+${i+1}`,
+  link:"#"
+}));
+
+const grid = document.getElementById("gameGrid");
+
+function render(list) {
+  grid.innerHTML = "";
+  list.forEach(g => {
+    grid.innerHTML += `
+      <div class="card">
+        <img src="${g.image}">
+        <h3>${g.name}</h3>
+        <div class="buttons">
+          <a href="${g.link}" target="_blank">Play</a>
+          <button onclick="fullscreen()">Fullscreen</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+render(games);
+
+/* SEARCH */
+document.getElementById("search").addEventListener("input", e => {
+  const v = e.target.value.toLowerCase();
+  render(games.filter(g => g.name.toLowerCase().includes(v)));
+});
+
+/* DARK MODE */
+function toggleTheme() {
+  document.body.classList.toggle("dark");
+}
+
+/* FULLSCREEN */
+function fullscreen() {
+  document.documentElement.requestFullscreen();
+}
+
+/* PANIC → GOOGLE DISGUISE */
+function panic() {
+  document.body.innerHTML = `
+    <iframe src="https://www.google.com"
+    style="position:fixed;top:0;left:0;width:100%;height:100%;border:none;"></iframe>`;
+}
+
+/* OPEN IN ABOUT:BLANK */
+function openBlank() {
+  const win = window.open("about:blank","_self");
+  win.document.write(`
+    <iframe src="https://www.google.com"
+    style="width:100%;height:100%;border:none;"></iframe>
+  `);
+}
+
+/* HIDE TITLE ON SCROLL */
+let last = 0;
+window.addEventListener("scroll", () => {
+  const h = document.getElementById("header");
+  const y = window.scrollY;
+  h.style.transform = y > last ? "translateY(-120%)" : "translateY(0)";
+  last = y;
+});
+</script>
+
+</body>
+</html>
